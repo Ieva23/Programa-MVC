@@ -7,6 +7,7 @@ import com.example.programamvc.models.Root;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
@@ -19,23 +20,30 @@ import java.util.Scanner;
 public class ForecastController {
 
     @GetMapping("/")
-    public ModelAndView index() throws IOException {
+    public ModelAndView index(@RequestParam(required = false) String cityCode) throws IOException {
         var modelAndView = new ModelAndView("index");
         var indexModel = new IndexModel();
 
-        ArrayList<String> cities = getCities();
+        ArrayList<Place> cities = getCities();
         indexModel.cities = cities;
 
-        ArrayList<ForecastModel> forecasts = getForecasts();
-        indexModel.forecasts = forecasts;
+        if (cityCode != null) {
+            ArrayList<ForecastModel> forecasts = getForecasts(cityCode);
+            indexModel.forecasts = forecasts;
+        }
+
+        if (cityCode == ""){
+            cityCode = null;
+        }
+        indexModel.currentCityCode = cityCode;
 
         modelAndView.addObject("IndexModel", indexModel);
 
         return modelAndView;
     }
 
-    private static ArrayList<String> getCities() throws IOException {
-        var cities = new ArrayList<String>();
+    private static ArrayList<Place> getCities() throws IOException {
+        var cities = new ArrayList<Place>();
         // cities.add("Vilnius");
         // cities.add("Kaunas");
 
@@ -44,25 +52,28 @@ public class ForecastController {
         ObjectMapper om = new ObjectMapper();
         Place[] places = om.readValue(jason, Place[].class);
 
-        for (var place : places){
-            cities.add(place.name);
+        for (var place : places) {
+            var p = new Place();
+            p.code = place.code;
+            p.name = place.name;
+            cities.add(place);
         }
 
-         return cities;
+        return cities;
     }
 
-    private static ArrayList<ForecastModel> getForecasts() throws IOException {
+    private static ArrayList<ForecastModel> getForecasts(String cityCode) throws IOException {
         var forecasts = new ArrayList<ForecastModel>();
         //   forecasts.add(new ForecastModel("2023-03-20",1));
         //   forecasts.add(new ForecastModel("2023-03-21",2));
         //  forecasts.add(new ForecastModel("2023-03-22",3));
 
-        var jason = loadDataJson("https://api.meteo.lt/v1/places/vilnius/forecasts/long-term");
+        var jason = loadDataJson("https://api.meteo.lt/v1/places/" + cityCode + "/forecasts/long-term");
         ObjectMapper om = new ObjectMapper();
         Root obj = om.readValue(jason, Root.class);
 
 
-        for (var stamp : obj.forecastTimestamps){
+        for (var stamp : obj.forecastTimestamps) {
             var forecast = new ForecastModel(stamp.forecastTimeUtc, stamp.airTemperature);
             forecasts.add(forecast);
         }
