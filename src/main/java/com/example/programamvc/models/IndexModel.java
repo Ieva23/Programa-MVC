@@ -8,4 +8,6 @@ public class IndexModel {
     public ArrayList<ForecastModel> forecasts;
 
     public String currentCityCode;
+
+    public String userName;
 }
