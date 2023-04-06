@@ -1,4 +1,4 @@
-package com.example.programamvc.services;
+package com.example.programamvc.service;
 
 import com.example.programamvc.models.MyUserPrincipal;
 import com.example.programamvc.models.User;
