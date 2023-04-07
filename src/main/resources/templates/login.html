@@ -2,6 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
   <title>Spring Security Example </title>
+  <style>
+    body {
+      background: url("https://images.rawpixel.com/image_1000/czNmcy1wcml2YXRlL3Jhd3BpeGVsX2ltYWdlcy93ZWJzaXRlX2NvbnRlbnQvbHIvcm0yODMtbnVubnktMjQwLmpwZw.jpg");
+      background-size: 100%, 100%;
+    }
+  </style>
 </head>
 <body style="background-color: whitesmoke">
 <div th:if="${param.error}">
@@ -10,14 +16,17 @@
 <div th:if="${param.logout}">
   Jus atsijungete.
 </div><br>
+<div style="margin-left: 40%; margin-top: 10%">
+
 <form th:action="@{/login}" method="post">
   <h1>Prisijungti</h1>
   <div><label> Vartotojo vardas : <input style="margin-left: 16px" type="text" name="username"/> </label></div><br>
-  <div style="margin-left: 1px"><label> Slaptazodis: <input style="margin-left: 3%" type="password" name="password"/> </label></div><br>
+  <div style="margin-left: 1px"><label> Slaptazodis: <input style="margin-left: 50px" type="password" name="password"/> </label></div><br>
   <div ><input type="submit" value="Prisijungti"/></div><br>
   <label>
     <input type="checkbox" checked="checked" name="remember"> Remember me
   </label>
 </form>
+</div>
 </body>
 </html>
