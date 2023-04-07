@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
+<body style="background-color: silver">
+
 
 <form th:action="@{/logout}" method="post">
-    <input type="submit" value="Atsijungti"/>
+    <hr>
+    <a href="/">Pagrindinis puslapis</a>
+    <hr>
+    <input  type="submit" value="Atsijungti"/>
 </form>
-
+<br>
 <ul th:each="forecast : ${myForecasts}">
     <li>
       <div th:text="${forecast.date}"></div>

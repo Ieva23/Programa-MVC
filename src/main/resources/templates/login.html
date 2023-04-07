@@ -3,17 +3,21 @@
 <head>
   <title>Spring Security Example </title>
 </head>
-<body>
+<body style="background-color: whitesmoke">
 <div th:if="${param.error}">
   Invalid username and password.
-</div>
+</div><br>
 <div th:if="${param.logout}">
-  You have been logged out.
-</div>
+  Jus atsijungete.
+</div><br>
 <form th:action="@{/login}" method="post">
-  <div><label> User Name : <input type="text" name="username"/> </label></div>
-  <div><label> Password: <input type="password" name="password"/> </label></div>
-  <div><input type="submit" value="Sign In"/></div>
+  <h1>Prisijungti</h1>
+  <div><label> Vartotojo vardas : <input style="margin-left: 16px" type="text" name="username"/> </label></div><br>
+  <div style="margin-left: 1px"><label> Slaptazodis: <input style="margin-left: 3%" type="password" name="password"/> </label></div><br>
+  <div ><input type="submit" value="Prisijungti"/></div><br>
+  <label>
+    <input type="checkbox" checked="checked" name="remember"> Remember me
+  </label>
 </form>
 </body>
 </html>
